@@ -1,0 +1,27 @@
+{
+  "name": "morse-code-translator",
+  "version": "1.0.0",
+  "scripts": {
+    "serverStart": "node server.js",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public",
+    "project": "npm-run-all -p serverStart dev"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^5.1.2",
+    "svelte": "^3.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "johnny-five": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "sirv-cli": "^0.4.4"
+  }
+}
