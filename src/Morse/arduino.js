@@ -1,7 +1,12 @@
 	import { appStatus } from './store';
 	import { get } from 'svelte/store';
 
+	// global variable to run the recording via setInterval across functions
 	let currentRecording;
+
+	//global variables to track how long the app has been paused for
+	let pauseStarttime;
+	let pauseFinishtime;
 
 /*--------Checking Arduino Connection & Starting/Quitting the App-------------*/
 
@@ -74,12 +79,18 @@ async function recordMessage(startTime) {
  	currentRecording = setInterval(()=>{recordMessage(startTime)}, 100); //update every 100ms
 }
 
-function pauseRecording() {
+async function sendPauseMessageToServer() {
+	const serverAddress = 'http://localhost:4000/pause'
+	const response = await fetch(serverAddress);
+}
+
+async function pauseRecording() {
+	sendPauseMessageToServer();
 	clearInterval(currentRecording);
 	appStatus.pauseAndResumeMessage();
 }
 
-function resumeRecording() {
+async function resumeRecording() {
 	let currentStatus = get(appStatus);
 	const startTime = Date.now() - (currentStatus.timer * 1000); // convert current time to ms (same as Date.now())
 	currentRecording = setInterval(()=>{recordMessage(startTime)}, 100); //update every 100ms

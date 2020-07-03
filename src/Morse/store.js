@@ -97,6 +97,7 @@ function setUpStore() {
 
   return {
 		subscribe,
+    set,
 		startApp,
 		quitApp,
     updateMessage,

@@ -16,6 +16,7 @@ app.listen(port, () => console.log(`Server running at http://localhost:${port}`)
 
 const five = require("johnny-five");
 const board = new five.Board();
+let button;
 
 const buttonPin = 7;
 const buzzerPin = 3;
@@ -25,8 +26,10 @@ let unitInterval = 300;
 
 let arduinoConnected = false;
 let messageStarted = false;
+let pauseAdjustment = false;
 
 let message = '';
+let storedMessage = '';
 
 // variable to track the time since button was last pressed
 let lastEntry;
@@ -43,6 +46,8 @@ app.get('/reset', resetMessage);
 
 app.get('/receiveMessage/:unitInterval', submitMessage);
 
+app.get('/pause', adjustMessageforPauseTime);
+
 /* ------------------async (req, res) Functions---------------------------------*/
 
 async function startApp(req, res) {
@@ -56,18 +61,29 @@ async function startApp(req, res) {
 async function resetMessage(req, res) {
   messageStarted = false;
   message = '';
+  storedMessage = '';
 }
 
 async function submitMessage(req, res) {
   try {
+    correctForPause();
     const params = req.params;
     unitInterval = params.unitInterval;
+    // adjust the holdtime for a dash that was defined at set up
+    if (typeof button !== 'undefined') {
+      button.holdtime = unitInterval * 3;
+    }
     res.send(message);
   } catch (error) {
     handleError(error);
   };
 }
 
+async function adjustMessageforPauseTime(req, res) {
+  pauseAdjustment = true;
+  // save message as it was at the start of the pause period
+  storedMessage = message;
+}
 
 /* ----------------------Arduino board functions------------------------------- */
 
@@ -147,6 +163,14 @@ function checkNewLetterOrWord() {
     } else if (timeSinceLastEntry > unitInterval * 7) {
       message += '/';
     };
+  };
+}
+
+function correctForPause() {
+  // ignore all actions carried out during pause by reverting to saved message
+  if (pauseAdjustment) {
+    message = storedMessage;
+    pauseAdjustment = false;
   };
 }
 
