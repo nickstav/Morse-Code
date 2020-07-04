@@ -43,9 +43,13 @@ async function getMessage() {
 	let currentStatus = get(appStatus);
 	let unitIntervalParam = `${currentStatus.unitInterval}`
 	let serverAddress = 'http://localhost:4000/receiveMessage/' + unitIntervalParam;
-	const response = await fetch(serverAddress);
-	const receivedMessage = await response.text();
-	return receivedMessage;
+	try {
+		const response = await fetch(serverAddress);
+		const receivedMessage = await response.text();
+		return receivedMessage;
+	} catch (error) {
+		console.log(error);
+	};
 }
 
 

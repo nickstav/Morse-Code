@@ -59,9 +59,14 @@ async function startApp(req, res) {
 }
 
 async function resetMessage(req, res) {
-  messageStarted = false;
-  message = '';
-  storedMessage = '';
+  try {
+    messageStarted = false;
+    message = '';
+    storedMessage = '';
+    res.send(message);
+  } catch (error) {
+    handleError(error);
+  };
 }
 
 async function submitMessage(req, res) {
@@ -80,9 +85,14 @@ async function submitMessage(req, res) {
 }
 
 async function adjustMessageforPauseTime(req, res) {
-  pauseAdjustment = true;
-  // save message as it was at the start of the pause period
-  storedMessage = message;
+  try {
+    pauseAdjustment = true;
+    // save message as it was at the start of the pause period
+    storedMessage = message;
+    res.send(message);
+  } catch (error) {
+    handleError(error);
+  };
 }
 
 /* ----------------------Arduino board functions------------------------------- */
