@@ -153,9 +153,9 @@
 <div id="buttons">
   <button class="record" on:click={startRecording}></button>
   {#if !$appStatus.isPaused}
-    <button class="pause" on:click={pauseRecording} disabled={$appStatus.timer == 0}></button>
+    <button class="pause" on:click={pauseRecording} disabled={$appStatus.timer === 0}></button>
   {:else}
     <button class="play" on:click={resumeRecording}></button>
   {/if}
-  <button class="submit" on:click={finishRecording} disabled={$appStatus.timer == 0}></button>
+  <button class="submit" on:click={finishRecording} disabled={$appStatus.timer === 0}></button>
 </div>

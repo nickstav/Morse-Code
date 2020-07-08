@@ -1,6 +1,6 @@
 <script>
   import { startApp, quitApp } from '../Morse/arduino';
-  import { appStatus } from '../Morse/store'
+  import { appStatus } from '../Morse/store';
 </script>
 
 <style>

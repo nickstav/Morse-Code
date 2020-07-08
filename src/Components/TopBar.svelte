@@ -14,7 +14,6 @@
     padding: 0 10px;
   }
   h1 {
-    color: white;
     font-size: 25px;
   }
 </style>

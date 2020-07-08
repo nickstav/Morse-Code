@@ -3,7 +3,7 @@
 	import Welcome from './Components/Welcome.svelte';
 	import WriteMessage from './Components/WriteMessage.svelte';
 	import Translate from './Components/Translate.svelte';
-	import { appStatus } from './Morse/store'
+	import { appStatus } from './Morse/store';
 </script>
 
 

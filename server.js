@@ -2,6 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const five = require("johnny-five");
 
 /* -----------------------Set up server on a local port------------------------ */
 
@@ -14,7 +15,6 @@ app.listen(port, () => console.log(`Server running at http://localhost:${port}`)
 
 /* ----------------------Set up the Arduino board------------------------------ */
 
-const five = require("johnny-five");
 const board = new five.Board();
 let button;
 
@@ -50,7 +50,7 @@ app.get('/pause', adjustMessageforPauseTime);
 
 /* ------------------async (req, res) Functions---------------------------------*/
 
-async function startApp(req, res) {
+async function startApp(_, res) {
   try {
     res.send(arduinoConnected);
   } catch (error) {
@@ -58,12 +58,12 @@ async function startApp(req, res) {
   };
 }
 
-async function resetMessage(req, res) {
+async function resetMessage(_, res) {
   try {
     messageStarted = false;
     message = '';
     storedMessage = '';
-    res.send(message);
+    res.send(true);
   } catch (error) {
     handleError(error);
   };
@@ -75,7 +75,7 @@ async function submitMessage(req, res) {
     const params = req.params;
     unitInterval = params.unitInterval;
     // adjust the holdtime for a dash that was defined at set up
-    if (typeof button !== 'undefined') {
+    if (button) {
       button.holdtime = unitInterval * 3;
     }
     res.send(message);
@@ -89,7 +89,7 @@ async function adjustMessageforPauseTime(req, res) {
     pauseAdjustment = true;
     // save message as it was at the start of the pause period
     storedMessage = message;
-    res.send(message);
+    res.send(true);
   } catch (error) {
     handleError(error);
   };
@@ -114,10 +114,10 @@ function setUpArduino() {
 
   // link buzzer output to whether button is pressed (value 0) or not (value 1)
   this.digitalRead(buttonPin, function(value) {
-    if (value == 1) {
+    if (value === 1) {
       this.digitalWrite(buzzerPin, 0);
     } else {
-      if (value == 0) {
+      if (value === 0) {
         this.digitalWrite(buzzerPin,1);
       };
     };
@@ -187,5 +187,5 @@ function correctForPause() {
 /* -------------------------Handle Errors---------------------------------------*/
 
 function handleError(error) {
-  console.log(error);
+  console.error(error);
 }

@@ -57,8 +57,8 @@
 {#if translatedMessages.length > 1}
   <div id="previousTranslations">
     <p class="listHeader">All Translations</p>
-    {#each translatedMessages as message, i}
-      <p><strong>message {i+1}:</strong> {message}</p>
+    {#each translatedMessages as message, messageIndex}
+      <p><strong>message {messageIndex + 1}:</strong> {message}</p>
     {/each}
   </div>
 {/if}

@@ -4,7 +4,8 @@ import { get } from 'svelte/store';
 
 let translatedMessages = [];
 
-let test = '--- --- --- .... / -- -.-- / -. .- -- . / .. ... / -- .- - - / --- --- --- .... / .. / - .... --- ..- --. .... - / .. - / .-- --- ..- .-.. -.. / -... . / ..-. ..- -. / - --- / ... . . / .-- .... .- - / - .... .. ... / ... .- -.-- ... / --- --- --- .... / .. / .- -- / ... --- / -- .- - - .... . .--';
+// test morse message
+// let test = '--- --- --- .... / -- -.-- / -. .- -- . / .. ... / -- .- - - / --- --- --- .... / .. / - .... --- ..- --. .... - / .. - / .-- --- ..- .-.. -.. / -... . / ..-. ..- -. / - --- / ... . . / .-- .... .- - / - .... .. ... / ... .- -.-- ... / --- --- --- .... / .. / .- -- / ... --- / -- .- - - .... . .--';
 
 function translateMessage() {
   appStatus.startTranslation();
@@ -15,13 +16,16 @@ function translateMessage() {
 
   if (translation.length > 0) {
     translatedMessages.push(translation);
+    console.debug('message successfully translated');
   } else {
     translatedMessages.push(errorMessage);
+    console.debug('message could not be translated');
   }
 }
 
 function startNewMessage() {
   appStatus.resetMessage();
+  console.debug('new message started');
 }
 
 function decodeMorse(morseMessage) {
@@ -39,6 +43,7 @@ function decodeMorse(morseMessage) {
   };
 
   let result =  decodedMessage.map(letter => letter.join('')).join(' ');
+  console.debug('morse decode function carried out');
   return result;
 }
 

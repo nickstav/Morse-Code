@@ -36,3 +36,5 @@ export const alphabet = {
     "---..": "8",
     "----.": "9"
   };
+
+  

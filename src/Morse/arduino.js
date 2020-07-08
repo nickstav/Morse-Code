@@ -4,10 +4,6 @@
 	// global variable to run the recording via setInterval across functions
 	let currentRecording;
 
-	//global variables to track how long the app has been paused for
-	let pauseStarttime;
-	let pauseFinishtime;
-
 /*--------Checking Arduino Connection & Starting/Quitting the App-------------*/
 
 async function checkConnection(address) {
@@ -48,7 +44,7 @@ async function getMessage() {
 		const receivedMessage = await response.text();
 		return receivedMessage;
 	} catch (error) {
-		console.log(error);
+		handleError(error);
 	};
 }
 
@@ -58,6 +54,9 @@ async function getMessage() {
 async function resetServerMessage() {
 	const serverAddressReset = 'http://localhost:4000/reset';
 	const response = await fetch(serverAddressReset);
+	if (!response) {
+		handleError(error);
+	}
 }
 
 
@@ -86,6 +85,9 @@ async function recordMessage(startTime) {
 async function sendPauseMessageToServer() {
 	const serverAddress = 'http://localhost:4000/pause'
 	const response = await fetch(serverAddress);
+	if (!response) {
+		handleError(error);
+	}
 }
 
 async function pauseRecording() {
@@ -105,5 +107,9 @@ async function finishRecording() {
 	appStatus.submitMessage();
 	clearInterval(currentRecording);
 }
+
+function handleError(error) {
+	console.error(error);
+  }
 
 export { startApp, quitApp, startRecording, pauseRecording, resumeRecording, finishRecording }
