@@ -1,8 +1,7 @@
-import { appStatus } from './store'
+import { appStatus } from './store';
+import { decodedMessages } from './translatedMessages';
 import { alphabet } from './alphabet';
 import { get } from 'svelte/store';
-
-let translatedMessages = [];
 
 // test morse message
 // let test = '--- --- --- .... / -- -.-- / -. .- -- . / .. ... / -- .- - - / --- --- --- .... / .. / - .... --- ..- --. .... - / .. - / .-- --- ..- .-.. -.. / -... . / ..-. ..- -. / - --- / ... . . / .-- .... .- - / - .... .. ... / ... .- -.-- ... / --- --- --- .... / .. / .- -- / ... --- / -- .- - - .... . .--';
@@ -15,10 +14,10 @@ function translateMessage() {
   let errorMessage = 'Sorry this message could not be translated. Please check for any errors';
 
   if (translation.length > 0) {
-    translatedMessages.push(translation);
+    decodedMessages.addMessage(translation);
     console.debug('message successfully translated');
   } else {
-    translatedMessages.push(errorMessage);
+    decodedMessages.addMessage(errorMessage);
     console.debug('message could not be translated');
   }
 }
@@ -49,4 +48,4 @@ function decodeMorse(morseMessage) {
 
 
 
-export { translatedMessages, translateMessage, startNewMessage }
+export { translateMessage, startNewMessage }

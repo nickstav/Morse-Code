@@ -4,6 +4,7 @@
 	import WriteMessage from './Components/WriteMessage.svelte';
 	import Translate from './Components/Translate.svelte';
 	import { appStatus } from './Morse/store';
+	import { decodedMessages } from './Morse/translatedMessages';
 </script>
 
 

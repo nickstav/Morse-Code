@@ -1,6 +1,7 @@
 <script>
-  import { translatedMessages, startNewMessage } from '../Morse/translate';
-  import { appStatus } from '../Morse/store'
+  import { startNewMessage } from '../Morse/translate';
+  import { appStatus } from '../Morse/store';
+  import { decodedMessages } from './Morse/translatedMessages';
   import { quitApp } from '../Morse/arduino';
 </script>
 
@@ -51,13 +52,13 @@
 
 <div id="translationText">
   <p class="header">Translated Message</p>
-  <p class="message">"{$appStatus.message}" = {translatedMessages[translatedMessages.length - 1]}</p>
+  <p class="message">"{$appStatus.message}" = {$decodedMessages[$decodedMessages.length - 1]}</p>
 </div>
 
-{#if translatedMessages.length > 1}
+{#if $decodedMessages.length > 1}
   <div id="previousTranslations">
     <p class="listHeader">All Translations</p>
-    {#each translatedMessages as message, messageIndex}
+    {#each $decodedMessages as message, messageIndex}
       <p><strong>message {messageIndex + 1}:</strong> {message}</p>
     {/each}
   </div>

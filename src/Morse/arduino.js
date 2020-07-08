@@ -1,4 +1,5 @@
 	import { appStatus } from './store';
+	import { decodedMessages } from './translatedMessages';
 	import { get } from 'svelte/store';
 
 	// global variable to run the recording via setInterval across functions
@@ -29,7 +30,8 @@ async function startApp() {
 function quitApp() {
   const confirmation = confirm('Are you sure you want to quit?');
   if (confirmation) {
-    appStatus.quitApp();
+	appStatus.quitApp();
+	decodedMessages.resetStoredMessages();
   };
 }
 
