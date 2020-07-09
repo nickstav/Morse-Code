@@ -88,6 +88,7 @@ function recordMessage(startTime) {
 	if (currentStatus.timer > currentStatus.recordTime) {
 		clearInterval(currentRecording);
 		appStatus.submitMessage();
+		audio.pause();
 	};
 }
 
