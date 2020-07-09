@@ -48,8 +48,10 @@ function addCharacter() {
 
 	if (timePressed < unitInterval * 3) {
 		appStatus.addDot();
+		console.debug('dot');
 	} else {
 		appStatus.addDash();
+		console.debug('dash');
 	};
 }
 
@@ -62,8 +64,10 @@ function checkNewLetterOrWord() {
 		const timeSinceLastEntry = Date.now() - lastEntry;
 		if (timeSinceLastEntry > unitInterval * 3 && timeSinceLastEntry < unitInterval * 7) {
 			appStatus.newLetter();
+			console.debug('new letter');
 		} else if (timeSinceLastEntry > unitInterval * 7) {
 			appStatus.newWord();
+			console.debug('new word');
 		};
 	}
 }
