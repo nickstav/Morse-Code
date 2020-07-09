@@ -141,7 +141,7 @@
 </div>
 
 <div id="buttons">
-  <button class="morse" on:mousedown={startNewCharacter} on:mouseup={updateMessage} disabled={$appStatus.isPaused || $appStatus.timer === 0}></button>
+  <button class="morse" on:mousedown={startNewCharacter} on:mouseup={updateMessage} disabled={$appStatus.isPaused || $appStatus.messageIsFinished || $appStatus.timer === 0}></button>
   <button class="record" on:click={startRecording}></button>
   {#if !$appStatus.isPaused}
     <button class="pause" on:click={pauseRecording} disabled={$appStatus.timer === 0}></button>

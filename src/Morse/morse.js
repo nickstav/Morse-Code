@@ -29,6 +29,7 @@ function quitApp() {
 function startNewCharacter() {
 	checkNewLetterOrWord();
 	startButtonDownTimer();
+	audio.currentTime = 0;
 	audio.play();
 }
 
@@ -37,7 +38,6 @@ function updateMessage() {
 	startButtonUpTimer();
 	//allow enough time for a 'beep' to play for a short click
 	setTimeout(()=>{audio.pause()}, 100);
-	audio.currentTime = 0;
 }
 
 function addCharacter() {
