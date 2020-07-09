@@ -1,13 +1,13 @@
 <script>
-  import { startRecording, pauseRecording, resumeRecording, finishRecording } from '../Morse/arduino';
-  import { translateMessage } from '../Morse/translate';
-  import { appStatus } from '../Morse/store';
+  import { startRecording, startNewCharacter, updateMessage, pauseRecording, resumeRecording, finishRecording } from '../Morse/morse';
+  import { saveMessage } from '../Morse/translation';
+  import { appStatus, liveTranslation } from '../Morse/store';
 </script>
 
 
 <style>
   #instructions {
-    padding-top: 20px;
+    padding-top: 5px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -15,7 +15,7 @@
   #messageBox {
     background-color: white;
     width: 90%;
-    height: 25%;
+    height: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@
     justify-content: center;
   }
   #settings {
-    padding-top: 50px;
+    padding-top: 30px;
     display: flex;
     justify-content: space-between;
     width: 80%;
@@ -39,8 +39,8 @@
     padding-right: 10px;
   }
   #buttons {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     width: 30%;
     height: 5%;
     display: flex;
@@ -50,7 +50,7 @@
     color: black;
     font-size: 25px;
     font-weight: 800;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
   .slider {
   -webkit-appearance: none;
@@ -79,6 +79,9 @@
     background: black;
     cursor: pointer;
   }
+  button.morse {
+    background-image: url("../buttons/morse.png");
+  }
   button.record {
     background-image: url("../buttons/record.png");
   }
@@ -98,13 +101,13 @@
     width: 60px;
     background-size: 100%;
   }
-  button.translate {
+  button.save {
     background: black;
     color: white;
     height: 40px;
     width: 80px;
   }
-  button.translate:hover {
+  button.save:hover {
     background: none;
     border: 1px solid black;
     color: black;
@@ -121,6 +124,7 @@
 <div id="instructions">
   <h2>Instructions</h2>
   <p>Click the record button below to start your message (up to {$appStatus.recordTime}s)</p>
+  <p>Use the morse code machine to enter your message</p>
   <p>You can pause and resume your message at anytime</p>
   <p>Click 'submit' once you have finished your message</p>
   {#if $appStatus.timer > 0}
@@ -130,9 +134,21 @@
 
 <div id="messageBox">
   <p class="message">{$appStatus.message}</p>
+  <p class="message">{$liveTranslation}</p>
   {#if $appStatus.messageIsFinished}
-    <button class="translate" on:click={translateMessage}>Translate!</button>
+    <button class="save" on:click={saveMessage}>Save Message</button>
   {/if}
+</div>
+
+<div id="buttons">
+  <button class="morse" on:mousedown={startNewCharacter} on:mouseup={updateMessage} disabled={$appStatus.isPaused || $appStatus.timer === 0}></button>
+  <button class="record" on:click={startRecording}></button>
+  {#if !$appStatus.isPaused}
+    <button class="pause" on:click={pauseRecording} disabled={$appStatus.timer === 0}></button>
+  {:else}
+    <button class="play" on:click={resumeRecording}></button>
+  {/if}
+  <button class="submit" on:click={finishRecording} disabled={$appStatus.timer === 0}></button>
 </div>
 
 <div id="settings">
@@ -148,14 +164,4 @@
       <li>Pause to start new word ('/') = 7 UI</li>
     </ul>
   </div>
-</div>
-
-<div id="buttons">
-  <button class="record" on:click={startRecording}></button>
-  {#if !$appStatus.isPaused}
-    <button class="pause" on:click={pauseRecording} disabled={$appStatus.timer === 0}></button>
-  {:else}
-    <button class="play" on:click={resumeRecording}></button>
-  {/if}
-  <button class="submit" on:click={finishRecording} disabled={$appStatus.timer === 0}></button>
 </div>

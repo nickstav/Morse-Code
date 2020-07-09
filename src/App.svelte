@@ -2,8 +2,8 @@
 	import TopBar from './Components/TopBar.svelte';
 	import Welcome from './Components/Welcome.svelte';
 	import WriteMessage from './Components/WriteMessage.svelte';
-	import Translate from './Components/Translate.svelte';
-	import { appStatus } from './Morse/store';
+	import Translate from './Components/Translation.svelte';
+	import { appStatus, liveTranslation } from './Morse/store';
 	import { decodedMessages } from './Morse/translatedMessages';
 </script>
 
@@ -26,7 +26,7 @@
 	<TopBar/>
 	{#if !$appStatus.isReady}
 		<Welcome/>
-	{:else if !$appStatus.isTranslating}
+	{:else if !$appStatus.showMessages}
 		<WriteMessage/>
 	{:else}
 		<Translate/>

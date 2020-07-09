@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+import { decodeMorse } from './decoder';
 
  const defaultValues = {
   isReady: false,
@@ -6,7 +7,7 @@ import { writable } from 'svelte/store';
   isPaused: false,
   messageIsFinished: false,
   timer: 0,
-  isTranslating: false,
+  showMessages: false,
   unitInterval: 300,
   recordTime: 15
 };
@@ -45,7 +46,7 @@ function setUpStore() {
         message: '',
         messageIsFinished: false,
         timer: 0,
-        isTranslating: false
+        showMessages: false
       };
     });
   }
@@ -86,11 +87,47 @@ function setUpStore() {
     });
   }
 
-  function startTranslation() {
+  function showTranslations() {
     update(status => {
       return {
         ...status,
-        isTranslating: true
+        showMessages: true
+      };
+    });
+  }
+
+  function newLetter() {
+    update(status => {
+      return {
+        ...status,
+        message: status.message + ' '
+      };
+    });
+  }
+
+  function newWord() {
+    update(status => {
+      return {
+        ...status,
+        message: status.message + '/'
+      };
+    });
+  }
+
+  function addDot() {
+    update(status => {
+      return {
+        ...status,
+        message: status.message + '.'
+      };
+    });
+  }
+
+  function addDash() {
+    update(status => {
+      return {
+        ...status,
+        message: status.message + '-'
       };
     });
   }
@@ -107,9 +144,34 @@ function setUpStore() {
     submitMessage,
     runTimer,
     pauseTimer,
-    startTranslation
+    showTranslations,
+    newLetter,
+    newWord,
+    addDot,
+    addDash
 	};
 
 }
 
-export const appStatus = setUpStore();
+const appStatus = setUpStore();
+
+const messageStarted = derived(
+  appStatus,
+  $appStatus => {
+    if ($appStatus.message.length > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+)
+
+const liveTranslation = derived(
+  appStatus,
+  $appStatus => {
+    return decodeMorse($appStatus.message);
+  }
+)
+
+
+export { appStatus, messageStarted, liveTranslation }

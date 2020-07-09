@@ -26,4 +26,3 @@ function setUpStore() {
 }
 
 export const decodedMessages = setUpStore();
-

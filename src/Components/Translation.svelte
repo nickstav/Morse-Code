@@ -1,8 +1,8 @@
 <script>
-  import { startNewMessage } from '../Morse/translate';
+  import { startNewMessage } from '../Morse/translation';
   import { appStatus } from '../Morse/store';
-  import { decodedMessages } from './Morse/translatedMessages';
-  import { quitApp } from '../Morse/arduino';
+  import { decodedMessages } from '../Morse/translatedMessages';
+  import { quitApp } from '../Morse/morse';
 </script>
 
 <style>

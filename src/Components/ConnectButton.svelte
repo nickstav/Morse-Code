@@ -1,5 +1,5 @@
 <script>
-  import { startApp, quitApp } from '../Morse/arduino';
+  import { startApp, quitApp } from '../Morse/morse';
   import { appStatus } from '../Morse/store';
 </script>
 
@@ -21,7 +21,7 @@
 
 
 {#if $appStatus.isReady}
-  <button class="quit" on:click={quitApp}>Disconnect</button>
+  <button class="quit" on:click={quitApp}>Quit</button>
 {:else}
-  <button class="connect" on:click={startApp}>Connect</button>
+  <button class="start" on:click={startApp}>Start</button>
 {/if}

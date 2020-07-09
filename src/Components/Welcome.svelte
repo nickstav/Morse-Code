@@ -17,5 +17,5 @@
 <div id="welcomeText">
   <p class="intro">Morse Code Translator!</p>
   <p class="instructions">(yes this does look very similar to Lightylighty doesn't it...)</p>
-  <p class="instructions">Please attach your Arduino and click "connect" to start</p>
+  <p class="instructions">Please attach your Arduino and click "Start" to begin</p>
 </div>
